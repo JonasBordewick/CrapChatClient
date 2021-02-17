@@ -1,0 +1,22 @@
+.text-area .content{
+    -fx-background-color: #c5e3fc;
+}
+.button{
+    -fx-background-color: #c5e3fc;
+}
+.text-field:focused{
+    -fx-background-color: #c5e3fc;
+}
+.dialogPane{
+    -fx-background-color:  #ff7dde;
+}
+
+.myAlert{
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 15px;
+    -fx-background-color:  #ff7dde;
+}
+
+.myAlert:header *.header-panel{
+    -fx-background-color:  #ff7dde;
+}
