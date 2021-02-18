@@ -115,7 +115,6 @@ public class ChatClient {
                 try {
                     readMessageLoop();
                 } catch (IOException e) {
-                    System.err.println("[Exception] " + e.getMessage() + " in startMessageReader()");
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {

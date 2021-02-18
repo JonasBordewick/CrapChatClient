@@ -7,18 +7,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
+import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
 
 public class ChatController implements MessageListener {
 
     private final ChatClient client;
+    private final CrapChat main;
 
     @FXML
     private TextArea chatEnterField;
@@ -31,7 +31,18 @@ public class ChatController implements MessageListener {
     private Button sendButton, logoutButton;
 
     @FXML
-    private void handleSendButton(ActionEvent event){
+    public void handleSendButton(ActionEvent event){
+        send();
+    }
+
+    @FXML
+    public void onEnter(KeyEvent e) {
+        if(e.getCode().toString().equalsIgnoreCase("enter")) {
+            send();
+        }
+    }
+
+    public void send(){
         String msg = chatEnterField.getText();
         msg = msg.trim();
         msg = msg.replaceAll("\n", " ");
@@ -59,7 +70,8 @@ public class ChatController implements MessageListener {
         System.exit(0);
     }
 
-    public ChatController(ChatClient client){
+    public ChatController(ChatClient client, CrapChat main){
+        this.main = main;
         this.client = client;
         client.addMessageListener(this);
     }
@@ -73,16 +85,7 @@ public class ChatController implements MessageListener {
     }
 
     public synchronized void serverException(){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add
-                (new Image(ChatController.class.getResourceAsStream("icon.png")));
-        alert.setTitle("Keine Verbindung zum CrapChat™ Server ");
-        alert.setHeaderText("Der CrapChat™ Server konnte nicht erreicht werden.");
-        alert.setContentText("Der CrapChat™ Server ist vermutlich offline, versuche es später erneut.");
-        alert.getDialogPane().getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-        alert.getDialogPane().getStyleClass().add("myAlert");
-        alert.showAndWait();
-        Platform.exit();
+        main.serverOfflineAlert();
     }
 
     @Override
